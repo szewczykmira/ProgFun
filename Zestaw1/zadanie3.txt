@@ -1,0 +1,6 @@
+let m=10;;
+let f x = m + x;;
+let m=100;
+
+f 1
+wartość będzie 11, bo zmienna jest powiazana z wartością a nie miejscem w pamięci. 
