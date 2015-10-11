@@ -1,0 +1,24 @@
+* if true then 4 else 5
+ dobrze otypowane, zwraca int;
+* if false then 1 else 3.5
+  źle otypowane, bo dla true jest int a dla false jest float - wywala error
+* 4.75 + 2.34
+  wyawala error bo + jest typu int -> int -> int a powinno być +.
+* false || "ab" > "cd"
+  wszystko jest okey, zwraca bool
+* if true then ()
+  zwraca typ unit : () ma on tylko jedną wartość
+* if false then () else 4
+  błąd typu bo dla true zwraca unit a dla false inta
+* let x = 2 in x^"aa"
+  błąd typu, bo ^ to konkatenacja stringów
+* let y="abc" in y^y
+  poprawny typ string
+* (fun x -> x.[1])"abcdef"
+  poprawne, zwraca char, numerowanie jest od 0
+* (fun x -> x) true
+  poprawnie, zwraca true
+* let x = [1;2] in x@x
+  zwraca list, @ to konkatenacja list
+* let rec f f = f+f in f 42
+  int: 84
