@@ -1,0 +1,7 @@
+Zmienne wolne: nie jest związana żadnym kwantyfikatorem/operatorem
+Zmienne związane: zmienna, która znajduje się w zasięgu operatora
+
+let x = x in x^x -> x to unbound value;
+let x = 10. in let y= x**2. in y*.x wszystkie są związane(?)
+let x = 1 and y=x in y+x wszystkie są związane
+let x=1 in fun y x -> x*y*z wszystkie są związane
