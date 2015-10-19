@@ -33,3 +33,14 @@ let tail_merge cmp l1 l2 =
       | true -> tail_acc cmp t1 l2 (acc@[h1])
       | _ -> tail_acc cmp l1 t2 (acc@[h2]))
   in tail_acc cmp l1 l2 []
+
+let rec take n l = if n = 0 then [] else (List.hd l)::(take (n-1) (List.tl l))
+let rec drop n l = if n = 0 then l else drop (n-1) (List.tl l)
+
+let rec mergesort l =
+  match l with
+  [] -> []
+  | [h] -> [h]
+  | _ -> let left = take (List.length l/2) l in
+        let right = drop (List.length l/2) l in
+        tail_merge (<=) (mergesort left) (mergesort right) 
