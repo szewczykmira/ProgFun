@@ -44,3 +44,11 @@ let rec mergesort l =
   | _ -> let left = take (List.length l/2) l in
         let right = drop (List.length l/2) l in
         tail_merge (<=) (mergesort left) (mergesort right) 
+
+(* Zadanie 6 *)
+let rec suffixes l =
+  match l with 
+  [] -> []
+  | _ -> [l]@(suffixes (List.tl l))
+ 
+let rec tails l =List.rev (suffixes (List.rev l))
