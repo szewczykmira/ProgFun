@@ -4,14 +4,22 @@ let rec f x =
   0 -> 1
   | 1 -> 2
   | _ -> 2*(f (x-2)) - (f (x-1)) +1
+
+let f_tail n =
+  let rec f_acc (n1, n2) n = 
+    match n with
+    0 -> n2
+  | 1 -> n1
+  | _ -> f_acc ((2*(n2) - n1 + 1), n1) (n-1)
+  in f_acc (2, 1) n
  
 (* Zadanie 3 *)
-let z3 f l =
- let rec z33 f l acc =
+let z3_tail f l =
+ let rec z3_acc f l acc =
    match l with
    [] -> acc
-  | _ -> (z33 f (List.tl l) (f (List.hd l)::acc ))
- in z33 f l []
+  | _ -> (z3_acc f (List.tl l) (f (List.hd l)::acc ))
+ in z3_acc f l []
 
 let rec z31 f l = if l = [] then [] else (z31 f (List.tl l))@[f (List.hd l)] 
 
