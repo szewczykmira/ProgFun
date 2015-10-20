@@ -1,3 +1,9 @@
+(* Zadanie 1 *)
+let rec sublist l = 
+  match l with
+  [] -> [[]]
+  | x::xs -> let ys = sublist xs in  (List.map (fun y -> x::y) ys) @ ys
+
 (* Zadanie 2 *)
 let rec f x = 
   match x with
@@ -53,10 +59,21 @@ let rec mergesort l =
         let right = drop (List.length l/2) l in
         tail_merge (<=) (mergesort left) (mergesort right) 
 
+(* Zadanie 5 *)
+let rec insert x l = 
+  match l with
+    [] -> [[x]]
+    | y::ys -> [x::l] @ (List.map (fun a -> y::a) (insert x ys))
+
+let rec perms l = 
+  match l with
+    [] ->  [[]]
+    | x::xs -> let ys = perms xs in List.concat (List.map (fun y -> insert x y) ys) 
+
 (* Zadanie 6 *)
 let rec suffixes l =
   match l with 
   [] -> []
-  | _ -> [l]@(suffixes (List.tl l))
- 
+  | _ -> [l]@(suffixes (List.tl l)) 
+
 let rec tails l =List.rev (suffixes (List.rev l))
