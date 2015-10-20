@@ -76,4 +76,8 @@ let rec suffixes l =
   [] -> []
   | _ -> [l]@(suffixes (List.tl l)) 
 
-let rec tails l =List.rev (suffixes (List.rev l))
+let rec tails l = List.rev (suffixes (List.rev l))
+let rec prefix l = 
+  match l with 
+    [] -> [[]]
+  | x::xs -> List.map (fun y -> x::y) (prefix xs) @ [[]]
