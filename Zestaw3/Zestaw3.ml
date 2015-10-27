@@ -8,7 +8,10 @@ let horner_tail elems x = let rec h_acc acc elems x =
   |y::ys -> h_acc ((fun a b -> a *. x +. b) acc y) ys x in h_acc 0. elems x;;
 (* Zadanie 2 *)
 let horner_2 elems x = List.fold_left (fun a b -> a *. x +. b) 0. (List.rev elems);;
-
+let h_tail_2 elems x = let rec h_acc_2 (acc, pot) elems x =
+  match elems with
+    [] -> acc
+  | y::ys -> h_acc_2 (acc +. (pot *. y), pot*.x) ys x in h_acc_2 (0., 1.) elems x;;
 (* Zadanie 4*)
 (* 1*)
 let validate_matrix matrix = let rec validate acc mat = 
