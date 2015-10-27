@@ -2,7 +2,10 @@
 (* Wersja uzywajaca funkcji modulu List - uzywa fold_left poniewaz fold_right nie uzywa rekursji ogonowej*)
 let horner elems x = List.fold_left (fun a b -> a *. x +. b) 0. elems;;
 (* wersja z rekursja ogonowa *)
-
+let horner_tail elems x = let rec h_acc acc elems x =
+  match elems with
+  [] -> acc
+  |y::ys -> h_acc ((fun a b -> a *. x +. b) acc y) ys x in h_acc 0. elems x;;
 (* Zadanie 2 *)
 let horner_2 elems x = List.fold_left (fun a b -> a *. x +. b) 0. (List.rev elems);;
 
@@ -51,3 +54,5 @@ let list_sum lista = let rec list_acc acc lista =
   [] -> acc
   | x::xs -> list_acc (acc +. x) xs in list_acc 0. lista;;
 let mult_vec vex mat = List.map list_sum (transposition (zipf mult vex mat));;
+(*7*)
+
