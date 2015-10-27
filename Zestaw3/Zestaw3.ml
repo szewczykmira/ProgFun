@@ -31,3 +31,23 @@ let transposition matrix = let rec tran len acc matrix =
   match len with
   0 -> acc
   | _ -> let l = (len -1) in tran l ((get_row matrix len)::acc ) matrix in tran (List.length matrix) [] matrix;;
+(*4*)
+let rec zip list_a list_b =
+  match list_a with
+    [] -> []
+  | x::xs -> (x, (List.hd list_b)) :: zip xs (List.tl list_b);;
+(*5*)
+let rec zipf f list_a list_b =
+  match list_a with
+    [] -> []
+  | x::xs -> (f x (List.hd list_b)) :: zipf f xs (List.tl list_b);;
+(*6*)
+let mult i lista = let rec mult_acc acc i lista =
+  match lista with
+  [] -> acc
+  | x::xs -> mult_acc ((x*.i)::acc) i xs in mult_acc [] i lista;;
+let list_sum lista = let rec list_acc acc lista =
+  match lista with
+  [] -> acc
+  | x::xs -> list_acc (acc +. x) xs in list_acc 0. lista;;
+let mult_vec vex mat = List.map list_sum (transposition (zipf mult vex mat));;
