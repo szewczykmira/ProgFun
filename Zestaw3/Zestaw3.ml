@@ -12,6 +12,12 @@ let h_tail_2 elems x = let rec h_acc_2 (acc, pot) elems x =
   match elems with
     [] -> acc
   | y::ys -> h_acc_2 (acc +. (pot *. y), pot*.x) ys x in h_acc_2 (0., 1.) elems x;;
+(*Zadanie 3*)
+let pochodna lista = let rec pochodna_acc acc num  lista =
+  match lista with
+  [] -> List.tl (List.rev acc)
+  | x::xs -> pochodna_acc ((x*.num)::acc) (num+.1.) xs in pochodna_acc [] 0. lista;;
+let poch lista = List.rev (fst (List.fold_left (fun (x,y) a -> ((a*.(y+.1.))::x, y+.1.)) ([],0.) (List.tl lista)));;
 (* Zadanie 4*)
 (* 1*)
 let validate_matrix matrix = let rec validate acc mat = 
@@ -56,6 +62,6 @@ let list_sum lista = let rec list_acc acc lista =
   match lista with
   [] -> acc
   | x::xs -> list_acc (acc +. x) xs in list_acc 0. lista;;
-let mult_vec vex mat = List.map list_sum (transposition (zipf mult vex mat));;
+let mult_vec vex  mat = List.rev (List.map list_sum (transposition (zipf mult vex mat)));;
 (*7*)
-
+let mult_mat mat1 mat2 = List.map (fun x -> mult_vec x mat2) mat1;;
