@@ -74,7 +74,7 @@ let rec perms l =
 let rec suffixes l =
   match l with 
   [] -> []
-  | _ -> [l]@(suffixes (List.tl l)) 
+  | _ -> l::(suffixes (List.tl l)) 
 
 let rec tails l = List.rev (suffixes (List.rev l))
 let rec prefix l = 
