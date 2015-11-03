@@ -41,3 +41,11 @@ let bfs_forest t = let rec forest_aux = function
 let bfs_mtree = function
     MNode(root, EmptyForest) -> [root]
   | MNode(root, forest) -> root::(bfs_forest forest);;
+
+(* Druga definicja drzewa wielokierunkowego *)
+type 'a mtree_lst = MTree of 'a * ('a mtree_lst) list;;
+(* dfs *)
+let dfs t = let rec dfs2 = function
+    [] -> []
+  | MTree(m, [])::t -> m::dfs2 t
+  | MTree(m, l)::t -> m::dfs2 (l@t) in dfs2 [t];;
