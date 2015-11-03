@@ -49,3 +49,8 @@ let dfs t = let rec dfs2 = function
     [] -> []
   | MTree(m, [])::t -> m::dfs2 t
   | MTree(m, l)::t -> m::dfs2 (l@t) in dfs2 [t];;
+(* bfs *)
+let bfs t = let rec bfs2 = function
+    [] -> []
+  | MTree(m,[])::t -> m::bfs2 t
+  | MTree(m,lista)::t -> m::bfs2 (t@lista) in bfs2 [t];;
