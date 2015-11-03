@@ -14,3 +14,13 @@ let rec balance = function
 in ((max (fst l) (fst r)) + 1, if (abs ((fst l) - (fst r))) > 1 then false else (snd l) && (snd r));;
 let balanced = fun x -> snd (balance x);;
 
+(*tworzenie zbalansowanego drzewa z listy*)
+let take n lista = let rec t acc n l = 
+  match n with
+    0 -> List.rev acc
+  | _ -> t ((List.hd l)::acc) (n-1) (List.tl l) in t [] n lista;; 
+let rec drop n lista = if n = 0 then lista else drop (n-1) (List.tl lista);;
+let rec make_tree = function
+    [] -> Leaf
+  | x::xs -> let len = List.length xs 
+  in Node(make_tree (take (len/2) xs),x,make_tree (drop (len/2) xs));;
