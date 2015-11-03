@@ -26,12 +26,18 @@ let rec make_tree = function
   in Node(make_tree (take (len/2) xs),x,make_tree (drop (len/2) xs));;
 (* Zadanie 3*)
 type 'a mtree = MNode of 'a * 'a forest and 'a forest = EmptyForest | Forest of 'a mtree * 'a forest;;
-(* przechodzenie wszerz *)
-let bfs t = t;;
 (* przechodzenie w glab *)
 let rec dfs_forest = function
     EmptyForest -> []
   | Forest(MNode(m,f), forest) -> (m)::(dfs_forest (f))@(dfs_forest forest);;
 let rec dfs_mtree = function
-  MNode(root, EmptyForest) -> [root]
+    MNode(root, EmptyForest) -> [root]
   | MNode(root, forest) -> root::(dfs_forest forest);;
+(* przechodzenie wszerz *)
+let bfs_forest t = let rec forest_aux = function
+    [] -> []
+  | EmptyForest::t -> forest_aux t
+  | Forest(MNode(m,f),forest)::t -> m::forest_aux (forest::t@[f]) in forest_aux [t];;
+let bfs_mtree = function
+    MNode(root, EmptyForest) -> [root]
+  | MNode(root, forest) -> root::(bfs_forest forest);;
