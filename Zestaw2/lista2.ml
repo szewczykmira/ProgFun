@@ -41,8 +41,8 @@ let rec merge cmp l1 l2 =
 let tail_merge cmp l1 l2 = 
   let rec tail_acc cmp l1 l2 acc = 
     match l1, l2 with
-    [], _ -> List.rev (l2@acc)
-    | _, [] -> List.rev (l1@acc)
+    [], _ -> (List.rev acc)@l2
+    | _, [] -> (List.rev acc)@l1
     | h1::t1, h2::t2 -> (match cmp h1 h2 with
       | true -> tail_acc cmp t1 l2 (h1::acc)
       | _ -> tail_acc cmp l1 t2 (h2::acc))
