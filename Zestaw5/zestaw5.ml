@@ -143,12 +143,27 @@ let rec findInTree sym = function
   | Tree(left, _, right) -> (findInTree sym left) || (findInTree sym right)
 
 let encode sym tree =
-  let rec checkForSym sym = function
-      Leaf(x, _) -> if x = sym then "" else failwith "Not found"
-    | Tree(left, _, right) -> let s = if findInTree sym left then "0" else "1" 
-    in let dir = if s = "0" then left else right
-  in (checkForSym sym dir)^s
- in checkForSym sym tree
+  let rec checkForSym sym acc = function
+    Leaf(x, _) -> if x = sym then List.rev acc else failwith "Not found"
+    | Tree(left, _, right) -> let s = if findInTree sym left then 0 else 1 
+    in let dir = if s = 0 then left else right
+  in checkForSym sym (s::acc)  dir
+  in checkForSym sym [] tree
+
+let len = List.length
+
+let checkSym code tree = 
+  let rec aux code = function
+      Leaf(x, _) -> if (len code) = 0 then x else failwith "Wrong code"
+    | Tree(left, _, right) -> if (len code) = 0 
+        then failwith "Wrong code" 
+        else let dir = if (List.nth code 0) = 0 then left else right 
+      in aux (List.tl code) dir
+  in aux code tree
+
+let rec decodeSyms tree = function
+    [] -> []
+  | (x::xs) -> (checkSym x tree)::(decodeSyms tree xs)
 
 let lot = [Leaf(4,5); Leaf(5,6);Leaf(9,0)];;
 let b = build_tree lot;;
