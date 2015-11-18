@@ -143,6 +143,12 @@ let rec findInTree sym = function
   | Tree(left, _, right) -> (findInTree sym left) || (findInTree sym right)
 
 let encode sym tree =
-  let aux sym route = function
-    Leaf(s, _) -> if s = sym then true else false
-  | Tree(left, _, right) -> let aux 
+  let rec checkForSym sym = function
+      Leaf(x, _) -> if x = sym then "" else failwith "Not found"
+    | Tree(left, _, right) -> let s = if findInTree sym left then "0" else "1" 
+    in let dir = if s = "0" then left else right
+  in (checkForSym sym dir)^s
+ in checkForSym sym tree
+
+let lot = [Leaf(4,5); Leaf(5,6);Leaf(9,0)];;
+let b = build_tree lot;;
