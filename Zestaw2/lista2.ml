@@ -81,3 +81,9 @@ let rec prefix l =
   match l with 
     [] -> [[]]
   | x::xs -> List.map (fun y -> x::y) (prefix xs) @ [[]]
+
+
+let some_list = [1;2;3;4;5;6;7;8];;
+let another_list = [2;3;6;8;12];;
+let unsorted_list = [5;4;7;812;2;1;8;0;9];;
+

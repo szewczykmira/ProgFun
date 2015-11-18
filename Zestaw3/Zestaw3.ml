@@ -65,3 +65,11 @@ let list_sum lista = let rec list_acc acc lista =
 let mult_vec vex  mat = List.rev (List.map list_sum (transposition (zipf mult vex mat)));;
 (*7*)
 let mult_mat mat1 mat2 = List.map (fun x -> mult_vec x mat2) mat1;;
+
+
+let data = [1.;0.;-1.;2.];;
+let matrix = [[1;2;3];[4;5;6];[7;8;9]];;
+let b_matrix = [1;2];;
+let vec = [1.;2.];;
+let m = [[2.;0.];[4.;5.]];;
+let iden = [[1.;0.];[0.;1.]];;

@@ -54,3 +54,28 @@ let bfs t = let rec bfs2 = function
     [] -> []
   | MTree(m,[])::t -> m::bfs2 t
   | MTree(m,lista)::t -> m::bfs2 (t@lista) in bfs2 [t];;
+
+(* Zadanie 4 *)
+type typdanych = Var of string | Not of typdanych | Con of typdanych * typdanych | Alt of typdanych * typdanych;;
+
+type wartosciowanie = string -> bool
+
+let magic f x v = function y -> if x = y then v else f y;;
+let generowanie:string list -> wartosciowanie list = let rec cos = function
+    [] -> []
+  | y::ys -> let rys = cos ys in let pos f = magic f y true in let neg f = magic f y false in List.map pos rys @ List.map neg rys in cos;;
+
+let rec evaluacja f = function
+    Var(x) -> f x
+  | Not(x) -> not (evaluacja f x)
+  | Con(x,y) -> (evaluacja f x) && (evaluacja f y)
+  | Alt(x,y) -> (evaluacja f x ) || (evaluacja f y);;
+
+let is_taut formula val_list = List.find (fun x -> not (evaluacja x formula)) val_list;;
+
+let good = [1;2;3;2;1];;
+let bad = [1;2;3;4];;
+let good_tree = Node(Node(Leaf,2,Leaf),5,Node(Leaf,7,Node(Leaf,4,Leaf)));;
+let bad_tree = Node(Leaf, 2,Node(Leaf,7,Node(Leaf,6,Leaf)));;
+let lista = [2;5;6;7;8];;
+let mtr = MNode(6,Forest(MNode(6,Forest(MNode(7,EmptyForest),EmptyForest)), Forest(MNode(9,EmptyForest),EmptyForest)));;
