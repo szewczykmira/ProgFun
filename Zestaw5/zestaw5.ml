@@ -65,8 +65,8 @@ let get_pi_sround x = 4.*. (get_sround x);;
 
 (* Podpunkt 2 *)
 
-let rec szipf = fun f stream ->
-  Cons(f (stake (3, stream)),lazy (stl stream ));;
+let rec szipf : ('a list -> 'b) -> 'a slist -> 'b slist = fun g stream ->
+  Cons(g (stake (3, stream)),lazy (szipf g (stl stream )));;
 
 (* Podpunkt 3 *)
 
@@ -96,7 +96,7 @@ let breadthFirst next x =
 let saveQueen oldq newq =
   let rec nodiag = function
     (i, []) -> true
-  | (i, q::qt) -> abs (newq-q) <> i && nodiag (i, qt)
+  | (i, q::qt) -> abs (newq-q) <> i && nodiag (i+1, qt)
   in not (List.mem newq oldq) && nodiag (1, oldq);;
 
 let rec fromTo a b =
@@ -131,7 +131,18 @@ let compare a b = if a = b then 0 else if a < b then -1 else 1;;
 
 let sort x = List.sort (fun x y -> compare (value x) (value y)) x;;
 
-let rec build = function
-    [] -> failwith "empty"
-  | [x] -> x
-  | (x::y::ys) -> build ( (Tree(x, (value x) + (value y), y) ):: ys);;
+let build_tree x =
+  let rec build = function
+      [] -> failwith "empty"
+    | [x] -> x
+    | (x::y::ys) -> build ( (Tree(y, (value x) + (value y), x) ):: ys)
+  in build (sort x)
+
+let rec findInTree sym = function
+    Leaf(s, _) -> if s = sym then true else false
+  | Tree(left, _, right) -> (findInTree sym left) || (findInTree sym right)
+
+let encode sym tree =
+  let aux sym route = function
+    Leaf(s, _) -> if s = sym then true else false
+  | Tree(left, _, right) -> let aux 
