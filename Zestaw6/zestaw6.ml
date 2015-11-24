@@ -85,3 +85,23 @@ let aupdate tree index ninf =
   in match tree with
     BArray(x, y) -> if y < index then failwith "list index out of range" 
         else aux ninf (index, x)
+
+let ahiext tree ninf =
+  let rec aux ninf = function
+      (_, BLeaf) -> BNode(BLeaf, ninf, BLeaf)
+    | (1, BNode(_,_,_)) -> failwith "error"
+    | (x, BNode(left, root, right)) -> if x mod 2 = 0 
+      then BNode( aux ninf ((x/2), left), root, right) 
+      else BNode(left, root, aux ninf ((x/2), right))
+  in match tree with
+    BArray(x, y) -> BArray(aux ninf ((y+1), x), y+1)
+
+let ahirem tree =
+  let rec aux = function
+      (_, BLeaf) -> failwith "list index out of range"
+    | (1, BNode(_,_,_)) -> BLeaf
+    | (x, BNode(left, root, right)) -> if x mod 2 = 0
+      then BNode(aux ((x/2, left)), root, right)
+      else BNode(left, root, aux ((x/2), right))
+  in match tree with
+    BArray(x,y) -> BArray(aux (y, x), y-1)
