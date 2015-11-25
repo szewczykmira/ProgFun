@@ -58,6 +58,30 @@ let dfs_remake_tree =
       (x, []) -> x
     | _ -> failwith "error"
 
+let dfs tree = dfs_remake_tree (dfs_forest tree)
+
+let bfs_forest tree = 
+  let rec aux acc = function
+      [] -> []
+    | ((TLeaf(x), par)::xs) -> (L, acc, par) :: aux (acc+1) xs
+    | ((TNode(left, root, right), par)::xs) -> (N, acc, par) :: aux (acc+1) (xs@[(left,acc)]@[(right,acc)])
+  in aux 1 [(tree, 0)] 
+
+let find_elem p = List.filter (fun (_, y, _) -> y = p)
+let find_sons p = List.filter (fun (_, _, z) -> z = p)
+ 
+let rebuild t =
+  let rec aux par = match find_elem par t with
+    | [(L, n, _)] -> TLeaf(n)
+    | [(N, n, _)] -> (match find_sons par t with
+      | [(_, nl, _); (_, nr, _)] -> (match List.map aux [nl; nr] with
+        | [lt; rt] -> TNode(lt, n, rt)
+        | _ -> failwith "error")
+      | _ -> failwith "error")
+    | _ -> failwith "error"
+  in aux 1
+
+let bfs tree = rebuild (bfs_forest tree)
 
 (* Zadanie 3 *)
 
